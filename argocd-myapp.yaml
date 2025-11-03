@@ -1,0 +1,21 @@
+# argocd-myapp.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp
+  namespace: argocd          # this is where Argo CD runs
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/islamr12/keyandtruststore.git
+    targetRevision: main
+    path: manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: myapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
